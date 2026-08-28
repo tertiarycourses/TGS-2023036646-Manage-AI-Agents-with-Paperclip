@@ -16,7 +16,7 @@ Course record (lms-tms.tertiaryinfotech.com, course b93f56ca-…):
 TITLE        = "Manage AI Agents with Paperclip (TGS-2023036646)"
 SHORT_TITLE  = "Manage AI Agents with Paperclip (TGS-2023036646)"
 COURSE_CODE  = "TGS-2023036646"
-VERSION      = "v1.0"
+VERSION      = "v2.0"
 VERSION_DATE = "28 August 2026"
 ORG          = "Tertiary Infotech Academy Pte Ltd"
 UEN          = "UEN: 201200696W"
@@ -84,12 +84,14 @@ TOPICS = [
             "MCP, RBAC and cost control).",
             "Twelve subsystems make up the platform: identity, org chart, work, heartbeat, "
             "workspaces, governance, budget, routines, plugins, secrets, activity and portability.",
-            "A heartbeat is a bounded execution burst triggered by a timer, an assignment, an "
-            "on-demand wake or a routine. Between heartbeats the agent is dormant, not idling.",
+            "A heartbeat is a bounded execution window with FIVE triggers: a schedule/interval tick, "
+            "a task assignment, an @-mention in a comment, a manual Run Heartbeat, or an approval "
+            "being resolved. Between heartbeats the agent is dormant — not idling and not billing.",
             "Work is checked out atomically with an execution lock, so two heartbeats can never "
             "double-work the same issue or race past a budget ceiling.",
-            "'If it can receive a heartbeat, it's hired' — adapters exist for Claude Code, Codex, "
-            "Cursor, Gemini CLI, bash processes and HTTP/webhook bots.",
+            "'If it can receive a heartbeat, it's hired' — adapter type keys include claude_local, "
+            "codex_local, gemini_local, opencode_local, cursor, pi_local and hermes_local, plus "
+            "process, http and openclaw_gateway.",
             "Feasibility comes before architecture: use one agent when the inputs, tools, "
             "authority and verification are the same across the whole task.",
             "Add a specialist only when different expertise is genuinely required, or when "
@@ -105,14 +107,16 @@ TOPICS = [
          concepts=[
             "Onboarding with `paperclipai onboard --yes` downloads Paperclip, writes the "
             "configuration, initialises the embedded PostgreSQL and serves the UI on port 3100.",
-            "Bind mode is a security decision: the default trusted loopback is the least exposed; "
-            "`--bind lan` and `--bind tailnet` widen reach and require authentication.",
+            "Deployment mode is a security decision: local_trusted is the default and requires no "
+            "login; authenticated+private and authenticated+public widen reach and require "
+            "real authentication.",
             "The onboarding wizard captures the company name, the mission statement and the team "
             "lead, then verifies connectivity to your chosen local agent runtime.",
             "A mission must be measurable. 'Grow the channel' cannot be verified; 'publish 8 "
             "short videos per month at ≥5% average watch-through' can.",
-            "The CEO is the first hire and the top of the org chart — it owns goal alignment, "
-            "decomposition and final synthesis, and it may hire further agents under approval.",
+            "Paperclip enforces a strict hierarchy: every agent reports to exactly ONE manager, and "
+            "the CEO is the only agent with no manager. The CEO owns goal alignment, decomposition "
+            "and final synthesis, and may propose further hires under approval.",
             "Every agent carries a role, a manager, an adapter, an instruction file, a heartbeat "
             "and an individual budget. Those six fields are the agent's whole contract.",
             "A role instruction states purpose, allowed inputs, the output schema, explicit "
@@ -138,8 +142,11 @@ TOPICS = [
             "tasks carry full goal ancestry — the agent sees why, not only what.",
             "Goal lineage flows downward: company mission → project goal → parent issue → child "
             "issue. An agent that cannot trace its lineage is working without direction.",
+            "Issues move through seven states — backlog, todo, in_progress, in_review, done, plus "
+            "blocked and cancelled. done and cancelled are TERMINAL: issues do not move backwards.",
             "Decompose into a parent synthesis issue plus specialist child issues. Create every "
-            "issue unassigned first, so creation cannot accidentally wake an agent.",
+            "issue unassigned first — assignment is a heartbeat trigger, so an assigned issue "
+            "wakes an agent immediately.",
             "Assignment is the trigger. Assign one child at a time to keep runs sequential, "
             "observable and individually attributable.",
             "An acceptance criterion must name the evidence: which artifact, at which path, "
@@ -169,22 +176,29 @@ TOPICS = [
             "prove it once by hand, and only then let the schedule own it.",
             "A schedule trigger is explicit — `30 16 * * *` with an IANA timezone such as "
             "Asia/Singapore. An implicit timezone is a production incident waiting to happen.",
-            "Budgets are layered: company, project, agent. Enforcement happens at checkout, so a "
-            "runaway loop stops at the ceiling instead of after you read the invoice.",
+            "Budgets have three scopes enforced in PARALLEL: company (monthly), agent (monthly) and "
+            "project (lifetime). An agent can be paused by its own cap even when the company has "
+            "budget left.",
+            "Enforcement is a two-stage circuit breaker at exact thresholds: 80% utilisation "
+            "records a warning and the agent keeps running; 100% pauses the agent automatically "
+            "with pauseReason = budget. Enforcement happens at checkout, not at billing.",
             "Treat the budget as a two-stage circuit breaker — warn, then stop — and record the "
             "baseline spend and expected run frequency before you rely on it.",
             "Cost is tracked at token level by provider, model, agent and project, which is what "
             "makes the per-agent cap meaningful rather than notional.",
-            "Approvals are the board's authority made explicit: the agent proposes a hire, a "
-            "strategy or a risky action, and a human decides with a recorded rationale.",
+            "Approvals come in three types — CEO Strategy, Hire Agent and Budget Override — and you "
+            "have three responses: approve, reject, or request revision. Approvals never expire "
+            "on their own, so a silent company is often an unattended approval queue.",
             "The activity log is a durable record of mutations, heartbeats, cost events and "
             "approvals — the audit loop closes when the whole operation reconstructs from it.",
-            "Use the least irreversible control first: inspect, then pause, then reassign, then "
-            "terminate. Retirement is the last rung of the ladder, not the first.",
-            "Deployment options run from local loopback through LAN or tailnet binding to a "
-            "hosted container with an external PostgreSQL and a persistent volume.",
-            "A production deployment needs the signing secret for tool approvals, the allowed "
-            "hostnames list and a health check on /api/health.",
+            "Use the least irreversible control first: inspect, pause, reassign, then terminate. "
+            "Pause and heartbeat-off differ: heartbeat-off still wakes on assignment, comment, "
+            "routine and on-demand; a paused agent wakes on nothing.",
+            "Deployment modes are local_trusted (the default, no login), authenticated+private and "
+            "authenticated+public, set with paperclipai configure --section server.",
+            "A hosted deployment REQUIRES PAPERCLIP_AGENT_JWT_SECRET and DATABASE_URL; "
+            "PAPERCLIP_TOOL_ACTION_SIGNING_SECRET is separately documented as required with no "
+            "fallback for TOOL-ACTION approvals.",
             "Portability means an entire company exports and imports with secrets scrubbed and "
             "collisions handled — the org chart is data, not a hand-built configuration.",
             "Troubleshooting is a discipline: reproduce, isolate the layer, change one setting, "

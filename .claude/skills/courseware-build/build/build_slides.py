@@ -431,7 +431,8 @@ tile_grid("The Twelve Subsystems", [
 img_points("The Heartbeat — Bounded Execution, Not a Running Process",
            "diagram-heartbeat.png", [
     ("Dormant by default", "Between heartbeats the agent is not idling and not billing."),
-    ("Four triggers", "A timer, an assignment, an on-demand wake, or a routine."),
+    ("Five triggers", "A schedule/interval tick, a task assignment, an @-mention, a "
+     "manual Run Heartbeat, or an approval being resolved."),
     ("Atomic checkout", "An execution lock means two heartbeats can never double-work "
      "the same issue."),
     ("Budget checked first", "The cap is tested at checkout — a runaway loop stops at the "
@@ -499,15 +500,15 @@ def topic_extras(num):
             ("Six fields per agent", "Role · manager · adapter · instructions · heartbeat · "
              "budget.")],
             kicker="LO2 · ACCOUNTABILITY HAS A SHAPE", accent=BLUE)
-        takeaway(compare_table("A Role Instruction Is a Contract, Not a Personality",
+        compare_table("A Role Instruction Is a Contract, Not a Personality",
             ["Section", "What it states", "Why it matters"],
             [["Purpose", "The single transformation this role owns", "Prevents scope drift"],
              ["Allowed inputs", "Which files, data and sources may be read", "Confines the blast radius"],
              ["Output schema", "The artifact, its path and its required fields", "Makes acceptance objective"],
              ["Exclusions", "What this role must never do", "The most valuable section"],
              ["Escalation", "When to stop and ask the board", "Keeps authority explicit"]],
-            kicker="LO2 · WRITING THE ROLE", accent=TEAL),
-            "If two roles could both plausibly do the task, your instructions are not finished.")
+            kicker="LO2 · WRITING THE ROLE", accent=TEAL,
+            note="If two roles could both plausibly do the task, your instructions are not finished.")
         tile_grid("Workspaces, Secrets and Skills", [
             ("Dedicated workspace", "One local root per role, isolated with git worktrees so "
              "every change is attributable to exactly one agent."),

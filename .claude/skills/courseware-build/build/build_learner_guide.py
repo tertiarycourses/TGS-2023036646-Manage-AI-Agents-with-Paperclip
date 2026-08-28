@@ -45,6 +45,22 @@ def steps(xs): B.append(("steps",xs))
 def code(t): B.append(("code",t))
 def note(t): B.append(("note",t))
 def rule(): B.append(("rule",))
+def table(caption,headers,rows): B.append(("table",(caption,headers,rows)))
+def check(qs): B.append(("check",qs))
+
+from lg_chapters import CHAPTERS, APPENDIX_CHAPTERS
+try:
+    from lg_labs import LAB_CHAPTERS
+except ImportError:
+    LAB_CHAPTERS = []
+try:
+    from lg_advanced import ADVANCED_CHAPTERS
+except ImportError:
+    ADVANCED_CHAPTERS = []
+try:
+    from lg_cli import CLI_CHAPTERS
+except ImportError:
+    CLI_CHAPTERS = []
 
 # ---------------- content ----------------
 h1("Introduction")
@@ -105,24 +121,24 @@ for t in C.TOPICS:
     p(t["subtitle"])
     h3("Key concepts")
     bullets(t["concepts"])
-    for a in [x for x in ACT if x["topic"]==t["num"]]:
-        h2(f"Lab {a['num']} — {a['title']}")
-        p("Maps to: " + a["objective"].rstrip(".") + ".")
-        p(f"Simulated company: {a.get('company','')}.")
-        p(f"Goal: {a['desc']}")
-        h3("What you'll build")
-        p(a["build"]+f"   (Tools: {a['services']}.)")
-        h3("Step-by-step")
-        st=[]
-        for i,(instr,cmd) in enumerate(a["steps"],1):
-            st.append((instr,cmd))
-        steps(st)
-        h3("Test it")
-        p(a["test"])
-        note(f"The lab folder labs/lab-{a['num']:02d}-* holds this lab's README and its synthetic "
-             f"data set. All data is fabricated for training — never substitute real company, "
-             f"market, financial or candidate data, and never record a credential in your evidence.")
-        rule()
+    # Each lab is walked through IN FULL in Part E. The topic chapters carry the
+    # concepts and cross-reference that walkthrough, so no lab is documented twice.
+    _labs=[x for x in ACT if x["topic"]==t["num"]]
+    if _labs:
+        h3("Hands-on labs for this topic")
+        bullets([("Lab %d — %s (%s). Full walkthrough: Part E, section E%d. "
+                  "Lab folder: labs/lab-%02d-*." )
+                 % (a["num"], a["title"], a.get("company",""), a["num"], a["num"])
+                 for a in _labs])
+        note("Every lab data set is synthetic and fabricated for training. Never substitute "
+             "real company, market, financial or candidate data, and never record a credential "
+             "in your evidence notes.")
+    rule()
+
+B.extend(CHAPTERS)
+B.extend(LAB_CHAPTERS)
+B.extend(ADVANCED_CHAPTERS)
+B.extend(CLI_CHAPTERS)
 
 h1("Operating Reference — Beyond the Labs")
 p("These cross-cutting topics are assessed throughout the course but do not each have a dedicated "
@@ -187,7 +203,7 @@ gl=[
  ("Agent","A work-performing role defined by six fields: role, manager, adapter, instructions, heartbeat and budget."),
  ("Role instruction","A contract stating purpose, allowed inputs, output schema, exclusions and escalation path — not a personality."),
  ("Workspace","A dedicated local root for one role's files and evidence, isolated with git worktrees so every change is attributable."),
- ("Heartbeat","A bounded execution burst triggered by a timer, an assignment, an on-demand wake or a routine. Between heartbeats the agent is dormant."),
+ ("Heartbeat","A bounded execution window with five triggers: a schedule/interval tick, a task assignment, an @-mention in a comment, a manual Run Heartbeat, or an approval being resolved. Between heartbeats the agent is dormant."),
  ("Atomic checkout","The execution lock that stops two heartbeats double-working the same issue or racing past a budget ceiling."),
  ("Issue","A unit of work carrying full goal ancestry, so the agent sees why it exists and not only what to do."),
  ("Goal lineage","The chain company mission → project goal → parent issue → child issue that gives an agent its direction."),
@@ -203,6 +219,9 @@ gl=[
  ("Portability","Export/import of a whole company with secrets scrubbed and identifier collisions re-mapped."),
 ]
 B.append(("dl",gl))
+
+# Appendices come LAST, after every content part and the glossary.
+B.extend(APPENDIX_CHAPTERS)
 
 # ---------------- render Markdown ----------------
 def _anchor(txt):
@@ -235,6 +254,18 @@ def render_md():
         elif kind=="dl":
             for term,defn in rest[0]: out.append(f"- **{term}** — {defn}")
             out.append("")
+        elif kind=="table":
+            cap,hdr,rows=rest[0]
+            if cap: out+=[f"*{cap}*",""]
+            out.append("| "+" | ".join(hdr)+" |")
+            out.append("|"+"|".join(["---"]*len(hdr))+"|")
+            for r in rows:
+                out.append("| "+" | ".join(str(c).replace("\n"," ") for c in r)+" |")
+            out.append("")
+        elif kind=="check":
+            out+=["**Check your understanding**",""]
+            for i,q in enumerate(rest[0],1): out.append(f"{i}. {q}")
+            out.append("")
     return "\n".join(out)
 
 MD_OUT=os.path.join(REPO,f"LG-{C.SHORT_TITLE}.md")
@@ -252,9 +283,17 @@ prodoc.add_cover_page(doc,"LEARNER GUIDE",C.TITLE,C.VERSION.lstrip("v"),
                       course_logo=os.path.join(ASSETS,"paperclip-course-logo.png"),
                       course_code=C.COURSE_CODE)
 prodoc.add_version_control(doc,[
- (C.VERSION.lstrip("v"),C.VERSION_DATE,
+ ("1.0","28 August 2026",
   "Initial release — Learner Guide for Manage AI Agents with Paperclip (TGS-2023036646): four topics, "
   "six hands-on labs, each building a different simulated one-person AI agent company on synthetic data.",
+  C.TRAINER),
+ (C.VERSION.lstrip("v"),C.VERSION_DATE,
+  "Major expansion to a full reference guide, rewritten against the official documentation at "
+  "docs.paperclip.ing. Adds Parts A-D (foundations, building, running, governing), Part E (expanded lab "
+  "walkthroughs), Part F (advanced operations and integration) and Part G (command and API reference), "
+  "plus appendices for defaults, state machines and troubleshooting. Corrects 22 technical statements "
+  "against the official specification — notably the seven issue states, the five heartbeat triggers, the "
+  "three parallel budget scopes with 80%/100% thresholds, the deployment modes and the adapter type keys.",
   C.TRAINER),
 ])
 prodoc.add_toc(doc)
@@ -283,10 +322,13 @@ def _rich(para, text, size=11, color=None):
             r.font.color.rgb = color
 
 for kind,*rest in B:
-    if kind=="h1": doc.add_heading(rest[0],level=1)
-    elif kind=="h2": doc.add_heading(rest[0],level=2)
+    if kind=="h1":
+        _h=doc.add_heading(rest[0],level=1); _h.paragraph_format.keep_with_next=True
+    elif kind=="h2":
+        _h=doc.add_heading(rest[0],level=2); _h.paragraph_format.keep_with_next=True
     elif kind=="h3":
-        para=doc.add_paragraph(); r=para.add_run(rest[0]); r.bold=True; r.font.size=Pt(11); r.font.color.rgb=BRAND
+        para=doc.add_paragraph(); para.paragraph_format.keep_with_next=True
+        r=para.add_run(rest[0]); r.bold=True; r.font.size=Pt(11); r.font.color.rgb=BRAND
     elif kind=="p": _rich(doc.add_paragraph(), rest[0])
     elif kind=="bullets":
         for x in rest[0]: _rich(doc.add_paragraph(style="List Bullet"), x)
@@ -306,6 +348,36 @@ for kind,*rest in B:
         para=doc.add_paragraph(); r=para.add_run("Note: "); r.bold=True; r.font.color.rgb=BRAND
         _rich(para, rest[0], size=10)
     elif kind=="rule": doc.add_paragraph("")
+    elif kind=="table":
+        cap,hdr,rows=rest[0]
+        if cap:
+            cp=doc.add_paragraph(); cr=cp.add_run(cap)
+            cr.bold=True; cr.font.size=Pt(10); cr.font.color.rgb=BRAND
+            cp.paragraph_format.space_after=Pt(3)
+        tb=doc.add_table(rows=0,cols=len(hdr)); tb.style="Table Grid"
+        hc=tb.add_row().cells
+        for i,htxt in enumerate(hdr):
+            hc[i].text=""
+            hr=hc[i].paragraphs[0].add_run(htxt)
+            hr.bold=True; hr.font.size=Pt(9)
+            try: prodoc._shade_cell(hc[i], "1F6FEB"); hr.font.color.rgb=RGBColor(0xFF,0xFF,0xFF)
+            except Exception: pass
+        for r in rows:
+            rc=tb.add_row().cells
+            for i,cell in enumerate(r[:len(hdr)]):
+                rc[i].text=""
+                _rich(rc[i].paragraphs[0], str(cell), size=9)
+        doc.add_paragraph().paragraph_format.space_after=Pt(2)
+    elif kind=="check":
+        cp=doc.add_paragraph(); cr=cp.add_run("Check your understanding")
+        cr.bold=True; cr.font.size=Pt(11); cr.font.color.rgb=BRAND
+        for i,q in enumerate(rest[0],1):
+            qp=doc.add_paragraph()
+            qp.paragraph_format.left_indent=Inches(0.32)
+            qp.paragraph_format.first_line_indent=Inches(-0.32)
+            qp.paragraph_format.space_after=Pt(3)
+            nr=qp.add_run(f"{i}.  "); nr.bold=True; nr.font.color.rgb=BRAND
+            _rich(qp, q, size=10.5)
     elif kind=="dl":
         for term,defn in rest[0]:
             para=doc.add_paragraph(style="List Bullet")

@@ -140,7 +140,7 @@ def heartbeat_cycle():
     ax.text(50, 95, "The heartbeat — a bounded execution burst, not a running process",
             ha="center", fontsize=13.5, fontweight="bold", color=INK)
 
-    stages = [("Dormant", "no cost"), ("Trigger", "timer · assignment\nwake · routine"),
+    stages = [("Dormant", "no cost"), ("Trigger", "schedule · assignment\nmention · manual · approval"),
               ("Check out", "atomic lock"), ("Budget check", "at checkout"),
               ("Execute", "adapter runs"), ("Record", "run · cost · activity")]
     bw, gx = 14.2, 15.9

@@ -67,8 +67,8 @@ Each lab builds a **different one-person company**, with its own synthetic data 
 
 ```
 courseware/
-  Manage AI Agents with Paperclip (TGS-2023036646)-v1.0.pptx   Trainer slide deck
-  Manage AI Agents with Paperclip (TGS-2023036646)-v1.0.pdf    Learner slides
+  Manage AI Agents with Paperclip (TGS-2023036646)-v2.0.pptx   Trainer slide deck
+  Manage AI Agents with Paperclip (TGS-2023036646)-v2.0.pdf    Learner slides
   LP-Manage AI Agents with Paperclip (TGS-2023036646).docx/.pdf  Lesson Plan
   LG-Manage AI Agents with Paperclip (TGS-2023036646).docx/.pdf  Learner Guide
 labs/                Six lab folders — each with its README and its own data/ set

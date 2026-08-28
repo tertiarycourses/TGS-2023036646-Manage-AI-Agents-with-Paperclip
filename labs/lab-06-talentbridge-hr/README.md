@@ -130,7 +130,7 @@ Retain the three core agents, the final artifacts and the full evidence pack. Le
 ## Troubleshooting
 
 - **The CEO synthesises incomplete work** — The parent was assigned before both children were accepted. Reopen the parent, accept the outstanding child on named evidence, then re-assign.
-- **The approval cannot be decided** — In a hosted deployment the tool-action signing secret must be configured, or approvals stay pending. Check PAPERCLIP_TOOL_ACTION_SIGNING_SECRET.
+- **The approval cannot be decided** — Approvals do not expire on their own — an undecided approval simply waits, and any agent blocked on it waits too. Open Approvals and approve, reject or request revision.
 - **Terminate removes more than intended** — Terminate is the LAST rung and is not reversible. Pause and reassign first; only terminate the role you deliberately created as disposable.
 - **The activity log has a gap** — Work was done outside a run — for example hand-edited in the workspace. Note it honestly in the audit map; an unexplained gap is itself an audit finding.
 

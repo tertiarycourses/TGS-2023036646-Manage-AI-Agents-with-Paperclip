@@ -70,6 +70,74 @@ SCHEDULE = {
  ]),
 }
 
+
+# ------------------------------------------------ slide ranges (read from the built deck)
+def _slide_ranges():
+    """Map each schedule row to real slide numbers by scanning the CURRENT deck.
+    Reading the deck rather than hardcoding means the LP can never drift from it."""
+    try:
+        from pptx import Presentation
+    except ImportError:
+        return {}
+    import glob
+    hits = sorted(glob.glob(os.path.join(REPO, "courseware", "*.pptx")))
+    if not hits:
+        return {}
+    prs = Presentation(hits[-1])
+    marks = {}
+    for i, sl in enumerate(prs.slides, 1):
+        txt = " ".join(sh.text_frame.text for sh in sl.shapes if sh.has_text_frame)
+        for key in ("COURSE ADMINISTRATION", "CORE CONCEPTS", "TOPIC 01", "TOPIC 02",
+                    "TOPIC 03", "TOPIC 04", "WRAP-UP"):
+            if key in txt and len(txt) < 400 and key not in marks:
+                marks[key] = i
+        for n in range(1, 7):
+            k = "LAB %d" % n
+            if ("LAB %d  \u00b7  HANDS-ON" % n) in txt and k not in marks:
+                marks[k] = i
+    total = len(prs.slides._sldIdLst)
+    def rng(a, b):
+        if a not in marks:
+            return ""
+        start = marks[a]
+        end = (marks.get(b, total + 1) - 1) if b else total
+        return "%d-%d" % (start, end) if end > start else str(start)
+    return {
+        "admin":   rng("COURSE ADMINISTRATION", "CORE CONCEPTS"),
+        "concept": rng("CORE CONCEPTS", "TOPIC 01"),
+        "t1":      rng("TOPIC 01", "LAB 1"),
+        "lab1":    rng("LAB 1", "TOPIC 02"),
+        "t2":      rng("TOPIC 02", "LAB 2"),
+        "lab23":   rng("LAB 2", "TOPIC 03"),
+        "t3":      rng("TOPIC 03", "LAB 4"),
+        "lab45":   rng("LAB 4", "TOPIC 04"),
+        "t4":      rng("TOPIC 04", "LAB 6"),
+        "lab6":    rng("LAB 6", "WRAP-UP"),
+        "wrap":    rng("WRAP-UP", None),
+    }
+SLIDES = _slide_ranges()
+
+def _slides_for(kind, text):
+    """Pick the slide range for a schedule row from its kind and text."""
+    t = text.lower()
+    if kind in ("admin",) or "welcome" in t:            return SLIDES.get("admin", "")
+    if kind in ("break", "lunch"):                       return ""
+    # Only the CLOSING recap/briefing/assessment rows map to the wrap-up block.
+    # A daily recap has no slides of its own, so leave it blank rather than
+    # pointing the trainer at the end-of-course deck.
+    if "briefing for assessment" in t or kind == "assess": return SLIDES.get("wrap", "")
+    if "course recap" in t:                               return SLIDES.get("wrap", "")
+    if "recap" in t:                                      return ""
+    for n, key in ((1, "lab1"), (6, "lab6")):
+        if ("Lab %d:" % n) in text:                      return SLIDES.get(key, "")
+    if "Lab 2:" in text or "Lab 3:" in text:             return SLIDES.get("lab23", "")
+    if "Lab 4:" in text or "Lab 5:" in text:             return SLIDES.get("lab45", "")
+    if "Topic 1" in text:                                return SLIDES.get("t1", "")
+    if "Topic 2" in text:                                return SLIDES.get("t2", "")
+    if "Topic 3" in text:                                return SLIDES.get("t3", "")
+    if "Topic 4" in text:                                return SLIDES.get("t4", "")
+    return ""
+
 # ------------------------------------------------ build document
 doc=Document()
 normal=doc.styles["Normal"]; normal.font.name="Arial"; normal.font.size=Pt(11)
@@ -80,9 +148,13 @@ prodoc.add_cover_page(doc,"LESSON PLAN",C.TITLE,C.VERSION.lstrip("v"),
                       course_logo=os.path.join(ASSETS,"paperclip-course-logo.png"),
                       course_code=C.COURSE_CODE)
 prodoc.add_version_control(doc,[
- (C.VERSION.lstrip("v"),C.VERSION_DATE,
+ ("1.0","28 August 2026",
   "Initial release — 2-day lesson plan for Manage AI Agents with Paperclip (TGS-2023036646), "
   "aligned to the four topics and the six hands-on labs (one simulated one-person company per lab).",
+  C.TRAINER),
+ (C.VERSION.lstrip("v"),C.VERSION_DATE,
+  "Aligned to the v2.0 courseware expansion: topic concepts rewritten against the official "
+  "documentation at docs.paperclip.ing. Schedule, hours and lab mapping unchanged.",
   C.TRAINER),
 ])
 prodoc.add_toc(doc)
@@ -129,9 +201,9 @@ H("Course Schedule",1)
 DAY_INSTR={}; DAY_ASSESS={}
 for day,(theme,rows) in SCHEDULE.items():
     H(f"Day {day} — {theme}",2)
-    tbl=doc.add_table(rows=0,cols=3); tbl.style="Table Grid"; tbl.alignment=WD_TABLE_ALIGNMENT.CENTER
+    tbl=doc.add_table(rows=0,cols=4); tbl.style="Table Grid"; tbl.alignment=WD_TABLE_ALIGNMENT.CENTER
     hdr=tbl.add_row().cells
-    for i,htext in enumerate(["Time","Duration","Topic / Activity"]):
+    for i,htext in enumerate(["Time","Duration","Topic / Activity","Slides"]):
         set_cell(hdr[i],htext,bold=True,size=10,color=RGBColor(0xFF,0xFF,0xFF),fill=HEADER_FILL)
     training=0
     for start,end,mins,kind,text in rows:
@@ -139,10 +211,13 @@ for day,(theme,rows) in SCHEDULE.items():
         set_cell(cells[0],f"{start}–{end}",bold=(kind in ("topic","assess","brief")),size=9.5,fill=fill)
         set_cell(cells[1],f"{mins} min",size=9.5,fill=fill)
         set_cell(cells[2],text,bold=(kind in ("topic","assess","brief")),size=9.5,fill=fill)
+        set_cell(cells[3],_slides_for(kind,text),size=9.5,fill=fill,
+                 align=WD_ALIGN_PARAGRAPH.CENTER)
         if kind!="lunch": training+=mins
     # widths
     for row in tbl.rows:
-        row.cells[0].width=Inches(1.15); row.cells[1].width=Inches(0.9); row.cells[2].width=Inches(4.75)
+        row.cells[0].width=Inches(1.05); row.cells[1].width=Inches(0.8)
+        row.cells[2].width=Inches(4.15); row.cells[3].width=Inches(0.8)
     assess_mins=sum(m for _s,_e,m,k,_t in rows if k=="assess")
     instr=training-assess_mins
     p=doc.add_paragraph()
