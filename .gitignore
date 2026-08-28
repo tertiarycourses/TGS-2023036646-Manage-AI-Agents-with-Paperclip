@@ -1,0 +1,21 @@
+# Assessments are CONFIDENTIAL — never pushed to GitHub (Drive + LMS only)
+assessment/
+
+# Secrets and local config
+.env
+*.pem
+*.key
+
+# Reference material from the source course — not ours to redistribute
+reference/
+
+# Build noise
+__pycache__/
+*.pyc
+.DS_Store
+**/.DS_Store
+~$*
+*.tmp
+
+# The assessment BUILDER embeds the live questions and model answers — trainer-only
+.claude/skills/wsq-assessment/

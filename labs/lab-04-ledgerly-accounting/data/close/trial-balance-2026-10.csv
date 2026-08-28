@@ -1,0 +1,20 @@
+# SYNTHETIC TRAINING DATA - Ledgerly Accounting (fictional company). Fabricated for WSQ TGS-2023036646. Not real accounting data. All amounts SGD. v1.0
+account_code,account_name,ledger_balance_sgd
+1010,"Cash at Bank - UOB Operating",256480.35
+1020,"Cash at Bank - DBS Payroll",84200.00
+1030,"Petty Cash",1850.00
+1100,"Accounts Receivable - Trade",412650.80
+1110,"Allowance for Doubtful Debts",-22500.00
+1150,"Accrued Income",18940.25
+1200,"Prepaid Expenses",34120.60
+1210,"GST Input Tax Receivable",26480.90
+1300,"Office Equipment - Cost",168000.00
+1310,"Accumulated Depreciation - Equipment",-71400.00
+2010,"Accounts Payable - Trade",-228315.45
+2020,"Accrued Expenses",-56780.20
+2030,"GST Output Tax Payable",-39620.75
+2040,"CPF Payable",-31245.60
+2050,"Withholding Tax Payable",-8420.00
+2100,"Deferred Revenue",-94500.00
+3010,"Share Capital",-300000.00
+3020,"Retained Earnings",-149940.90

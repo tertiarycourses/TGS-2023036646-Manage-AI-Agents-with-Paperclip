@@ -1,0 +1,10 @@
+# FABRICATED TRAINING DATA - NOT MARKET DATA. Invented symbols and prices for WSQ TGS-2023036646 (Manage AI Agents with Paperclip). These companies do not exist. Nothing here is a quote, a price feed or investment advice. All amounts SGD. v1.0
+symbol,company_name,sector,listing_board,currency,added_date,notes
+NPX.SI,"Northpoint Example Holdings",Industrials,Mainboard,SGD,2026-09-15,"Fabricated symbol - training use only"
+FKT.SI,"Fictional Kaya Toast Group",Consumer Staples,Catalist,SGD,2026-09-15,"Fabricated symbol - training use only"
+MOCK.SI,"Mockingbird Marine Engineering",Marine,Mainboard,SGD,2026-09-15,"Fabricated symbol - training use only"
+SMPL.SI,"Sample Semiconductor Assembly",Technology,Mainboard,SGD,2026-09-15,"Fabricated symbol - training use only"
+DUMY.SI,"Dummyfield Logistics Trust",REIT,Catalist,SGD,2026-09-15,"Fabricated symbol - training use only"
+TSTX.SI,"Testex Renewable Power",Utilities,Mainboard,SGD,2026-09-15,"Fabricated symbol - training use only"
+PLCB.SI,"Placebo Biosciences",Healthcare,Mainboard,SGD,2026-09-15,"Fabricated symbol - training use only"
+ZZZQ.SI,"Zedzed Quantum Data Centres",Technology,Mainboard,SGD,2026-09-15,"Fabricated symbol - training use only"

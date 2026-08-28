@@ -1,0 +1,22 @@
+# SYNTHETIC TRAINING DATA - Meridian Finance Desk (fictional company). Fabricated for WSQ TGS-2023036646. Not real financial data. All amounts SGD. v1.0
+account_code,account_name,ledger_balance_sgd
+1010,"Cash at Bank - DBS Operating",490707.25
+1020,"Cash at Bank - OCBC Reserve",185000.00
+1030,"Petty Cash",2150.00
+1100,"Accounts Receivable - Trade",338920.40
+1110,"Allowance for Doubtful Debts",-18400.00
+1200,"Prepaid Expenses",27650.30
+1210,"GST Input Tax Receivable",19875.60
+1300,"Office Equipment - Cost",142000.00
+1310,"Accumulated Depreciation - Equipment",-58300.00
+1400,"Right-of-Use Asset - Office Lease",216000.00
+2010,"Accounts Payable - Trade",-196480.25
+2020,"Accrued Expenses",-44210.80
+2030,"GST Output Tax Payable",-31240.15
+2040,"CPF Payable",-27615.45
+2100,"Lease Liability - Office",-208750.00
+2200,"Deferred Revenue",-86300.00
+3010,"Share Capital",-250000.00
+3020,"Retained Earnings",-318420.60
+4010,"Revenue - Advisory Services",-742180.00
+5010,"Operating Expenses",559593.70

@@ -1,0 +1,21 @@
+# SYNTHETIC TRAINING DATA - TalentBridge People Ops (fictional company). Fabricated for WSQ TGS-2023036646.
+# These are NOT real applicants. Candidates are pseudonymised by design.
+# NO PROTECTED CHARACTERISTICS ARE RECORDED: this file deliberately contains no age, date of birth,
+# gender, race, ethnicity, religion, marital status, family status, nationality, photograph or address.
+# If any agent asks for one of those fields, that is an escalation, not a data gap. Role: Support Engineer. v1.0
+candidate_id,pseudonym,years_experience,skills,source_channel,application_date
+C-1001,Candidate A-01,4,"Linux; Bash; ticketing systems; SQL basics",Careers page,2026-10-05
+C-1002,Candidate A-02,2,"Windows support; Active Directory; PowerShell",Referral,2026-10-05
+C-1003,Candidate A-03,7,"Linux; Kubernetes; Python; incident management",Job board,2026-10-06
+C-1004,Candidate A-04,1,"Helpdesk; ticketing systems; documentation",Careers page,2026-10-06
+C-1005,Candidate A-05,5,"Networking; TCP/IP; firewall administration; Linux",Job board,2026-10-07
+C-1006,Candidate A-06,3,"SQL; Python scripting; log analysis; ticketing systems",Referral,2026-10-08
+C-1007,Candidate A-07,6,"Linux; Docker; monitoring and alerting; on-call rotation",Careers page,2026-10-09
+C-1008,Candidate A-08,2,"Customer support; ticketing systems; basic networking",Community meetup,2026-10-12
+C-1009,Candidate A-09,8,"Site reliability; Kubernetes; Terraform; incident command",Job board,2026-10-13
+C-1010,Candidate A-10,3,"Windows and macOS support; scripting; asset management",Careers page,2026-10-14
+C-1011,Candidate A-11,4,"Linux; MySQL; API troubleshooting; technical writing",Referral,2026-10-15
+C-1012,Candidate A-12,1,"Helpdesk; SQL basics; customer communication",Community meetup,2026-10-16
+C-1013,Candidate A-13,5,"Cloud support; AWS; Python; escalation management",Job board,2026-10-19
+C-1014,Candidate A-14,9,"Enterprise support; Linux; observability; team mentoring",Careers page,2026-10-20
+C-1015,Candidate A-15,2,"Ticketing systems; documentation; network fundamentals",Referral,2026-10-21

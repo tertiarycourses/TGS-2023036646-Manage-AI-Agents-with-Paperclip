@@ -1,0 +1,32 @@
+# SYNTHETIC TRAINING DATA - Ledgerly Accounting (fictional company). Fabricated for WSQ TGS-2023036646. Not real accounting data. All amounts SGD. v1.0
+date,description,type,amount_sgd,running_balance_sgd
+2026-10-01,"BAL B/F opening balance",OPENING,0.00,143991.95
+2026-10-01,"Client receipt - Anchorvale Dental Clinic",CR,18450.00,162441.95
+2026-10-02,"GIRO - CPF Board contribution Sep",DR,-29880.15,132561.80
+2026-10-02,"Supplier payment - Bedok Stationery Supply",DR,-3240.60,129321.20
+2026-10-05,"Client receipt - Clementi Learning Hub",CR,26700.00,156021.20
+2026-10-06,"Office rental - Tai Seng industrial unit",DR,-14200.00,141821.20
+2026-10-07,"Client receipt - Dover Marine Services",CR,41250.00,183071.20
+2026-10-08,"Bank charges - monthly service fee",DR,-95.00,182976.20
+2026-10-09,"Supplier payment - Eunos Cloud Hosting",DR,-5680.40,177295.80
+2026-10-12,"Client receipt - Farrer Park Physiotherapy",CR,15300.00,192595.80
+2026-10-13,"Utilities - SP Group",DR,-2180.75,190415.05
+2026-10-14,"Client receipt - Geylang Food Distributors",CR,33900.00,224315.05
+2026-10-15,"GST payment to IRAS - Q3 net",DR,-13139.85,211175.20
+2026-10-16,"Payroll - October salaries",DR,-98400.00,112775.20
+2026-10-19,"Client receipt - Hougang Auto Workshop",CR,22150.00,134925.20
+2026-10-20,"Insurance premium - professional indemnity",DR,-9250.00,125675.20
+2026-10-21,"Client receipt - Katong Hospitality Group",CR,37800.00,163475.20
+2026-10-22,"Supplier payment - Lavender Print Works",DR,-4820.30,158654.90
+2026-10-23,"Interest received - operating account",CR,385.20,159040.10
+2026-10-26,"Client receipt - Marsiling Logistics",CR,29450.00,188490.10
+2026-10-27,"Software subscriptions - monthly",DR,-1980.00,186510.10
+2026-10-27,"Withholding tax remittance - IRAS S45",DR,-8420.00,178090.10
+2026-10-28,"Client receipt - Novena Wellness Partners",CR,24600.00,202690.10
+2026-10-28,"Travel and client entertainment",DR,-2340.55,200349.55
+2026-10-29,"Supplier payment - Pasir Ris Facilities",DR,-7150.80,193198.75
+2026-10-29,"Client receipt - Queenstown Retail Group",CR,31200.00,224398.75
+2026-10-30,"Professional fees - external audit advance",DR,-12500.00,211898.75
+2026-10-30,"Client receipt - Redhill Education Trust",CR,17850.00,229748.75
+2026-10-30,"Bank charges - transaction fees",DR,-168.40,229580.35
+2026-10-31,"Client receipt - Sembawang Trading Co",CR,26900.00,256480.35

@@ -1,0 +1,27 @@
+# SYNTHETIC TRAINING DATA - Meridian Finance Desk (fictional company). Fabricated for WSQ TGS-2023036646. Not real financial data. All amounts SGD. v1.0
+date,description,type,amount_sgd,running_balance_sgd
+2026-09-01,"BAL B/F opening balance",OPENING,0.00,388420.10
+2026-09-02,"Client receipt - Harbourfront Logistics",CR,48250.00,436670.10
+2026-09-03,"GIRO - CPF Board contribution Aug",DR,-27615.45,409054.65
+2026-09-04,"Office lease payment - Raffles Place unit",DR,-18500.00,390554.65
+2026-09-05,"Client receipt - Tanjong Pagar Dental Group",CR,22400.00,412954.65
+2026-09-08,"Supplier payment - Meridian IT Services",DR,-14320.75,398633.90
+2026-09-09,"Client receipt - Bukit Timah Wellness",CR,31150.00,429783.90
+2026-09-10,"Bank charges - monthly service fee",DR,-85.00,429698.90
+2026-09-11,"Payroll - September salaries",DR,-142800.00,286898.90
+2026-09-12,"Client receipt - Jurong Marine Supplies",CR,64800.00,351698.90
+2026-09-15,"GST payment to IRAS - Q2 net",DR,-31240.15,320458.75
+2026-09-16,"Client receipt - Novena Medical Partners",CR,27600.00,348058.75
+2026-09-17,"Utilities - SP Group",DR,-2410.30,345648.45
+2026-09-18,"Insurance premium - professional indemnity",DR,-8750.00,336898.45
+2026-09-19,"Client receipt - Changi Freight Holdings",CR,55300.00,392198.45
+2026-09-22,"Supplier payment - Orchard Print Studio",DR,-6180.40,386018.05
+2026-09-23,"Interest received - reserve account",CR,412.85,386430.90
+2026-09-24,"Client receipt - Paya Lebar Retail Group",CR,38900.00,425330.90
+2026-09-25,"Software subscriptions - annual renewal",DR,-12450.00,412880.90
+2026-09-26,"Client receipt - Woodlands Education Trust",CR,19750.00,432630.90
+2026-09-28,"Supplier payment - Kallang Facilities Mgmt",DR,-9640.20,422990.70
+2026-09-29,"Travel and client entertainment",DR,-3820.55,419170.15
+2026-09-29,"Client receipt - Serangoon Auto Distributors",CR,42180.00,461350.15
+2026-09-30,"Bank charges - transaction fees",DR,-142.90,461207.25
+2026-09-30,"Client receipt - Sentosa Hospitality Ltd",CR,29500.00,490707.25

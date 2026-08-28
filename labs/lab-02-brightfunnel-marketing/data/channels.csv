@@ -1,0 +1,8 @@
+# SYNTHETIC TRAINING DATA - BrightFunnel Marketing (fictional). Figures aggregate leads.csv for Jul-Aug 2026. SGD. TGS-2023036646 v1.0
+channel,campaign,total_spend_sgd,total_leads,total_qualified_leads,cost_per_qualified_lead_sgd,qualification_rate_pct
+Google Search,BF-SEM-Q3-Brand,1390.08,78,36,38.61,46.2
+Meta Ads,BF-SOC-Q3-Retarget,1098.10,95,26,42.23,27.4
+LinkedIn Ads,BF-LIN-Q3-SME-Owners,1631.74,50,28,58.28,56.0
+Organic Search,BF-SEO-Q3-Guides,381.40,63,24,15.89,38.1
+Email Nurture,BF-EML-Q3-Reactivate,191.57,42,18,10.64,42.9
+Referral,BF-REF-Q3-Partners,159.58,19,12,13.30,63.2
