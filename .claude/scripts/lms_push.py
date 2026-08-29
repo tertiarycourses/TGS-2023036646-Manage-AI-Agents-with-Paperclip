@@ -216,7 +216,17 @@ def collect_links(root):
     # and the slide deck PDF. Anything that is not the guide is the deck.
     take("slidesUrl", "learner_guide", lambda n: pdf(n) and not is_learner_guide(n), "learner slides .pdf")
     take("learnerGuideUrl", "learner_guide", lambda n: pdf(n) and is_learner_guide(n), "learner guide .pdf")
-    take("lessonPlanUrl", "lesson_plan", pdf, "lesson plan .pdf")
+    take("lessonPlanUrl", "lesson_plan",
+         lambda n: pdf(n) and n.lower().lstrip().startswith("lp-"), "lesson plan .pdf")
+
+    # Facilitator Guide and Assessment Plan. These two fields were previously never
+    # written by this script, which is how they kept serving the PREVIOUS course's
+    # documents long after everything else had been replaced. They live alongside the
+    # Lesson Plan on Drive and are matched on their FG-/AP- filename prefix.
+    take("facilitatorGuideUrl", "lesson_plan",
+         lambda n: pdf(n) and n.lower().lstrip().startswith("fg-"), "facilitator guide .pdf")
+    take("assessmentPlanUrl", "lesson_plan",
+         lambda n: pdf(n) and n.lower().lstrip().startswith("ap-"), "assessment plan .pdf")
 
     # ---- the assessment: QUESTION PAPERS ONLY. Answer keys are trainer-only and never
     # reach the LMS, so they are filtered out before anything is picked.
@@ -459,6 +469,8 @@ FIELD_LABELS = {
     "slidesUrl": "Learner Slides URL",
     "learnerGuideUrl": "Learner Guide URL",
     "lessonPlanUrl": "Lesson Plan URL",
+    "facilitatorGuideUrl": "Facilitator Guide URL",
+    "assessmentPlanUrl": "Assessment Plan URL",
     "writtenAssessmentLink": "Written Assessment (question paper)",
     "caseStudyLink": "Case Study (question paper)",
     "practicalPerformanceAssessmentLink": "Practical Performance (question paper)",

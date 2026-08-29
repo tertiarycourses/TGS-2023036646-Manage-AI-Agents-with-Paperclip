@@ -19,3 +19,10 @@ __pycache__/
 
 # The assessment BUILDER embeds the live questions and model answers — trainer-only
 .claude/skills/wsq-assessment/
+
+# The Assessment Plan embeds the model answers in Annexes B and D — trainer-only.
+# It goes to Google Drive and the LMS, never to a public repository. Its BUILDER
+# hardcodes the same annexes, so that is excluded too.
+courseware/AP-*.docx
+courseware/AP-*.pdf
+.claude/skills/courseware-build/build/build_facilitator_assessment_plan.py
