@@ -113,6 +113,8 @@ Learners are graded **Competent (C)** or **Not Yet Competent (NYC)** on each ins
 
 ## Funding
 
+Up to **70%** SkillsFuture course fee funding for eligible learners (50% baseline for SG/PR 21+, 70% MCES / SME). Eligibility and terms apply — see the [course page](https://www.tertiarycourses.com.sg/wsq-manage-ai-agents-with-paperclip.html).
+
 | | Amount |
 |---|---|
 | Full fee (before GST) | $900.00 |
