@@ -26,3 +26,10 @@ __pycache__/
 courseware/AP-*.docx
 courseware/AP-*.pdf
 .claude/skills/courseware-build/build/build_facilitator_assessment_plan.py
+
+# Facilitator Guide + Assessment Plan embed the answer keys and rubric:
+# trainer-only (Google Drive + TMS), never GitHub
+**/FG_*
+**/FG-*
+**/Assessment_Plan_*
+**/AP-*
